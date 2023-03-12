@@ -1,4 +1,4 @@
-package com.sample.utilities;
+package com.brusselsairport.utilities;
 
 import java.io.FileInputStream;
 import java.util.Properties;

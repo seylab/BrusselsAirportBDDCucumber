@@ -1,23 +1,29 @@
-package com.sample.step_definitions;
+package com.brusselsairport.step_definitions;
 
-import com.sample.utilities.Driver;
+import com.brusselsairport.utilities.Driver;
 import io.cucumber.java.After;
+import io.cucumber.java.AfterStep;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 
 import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 
 public class Hooks {
 
     @Before
-    public void setUp(){
-        System.out.println("\tthis is coming from BEFORE");
+    public void setUp(Scenario scenario){
         Driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+        Driver.get().manage().window().maximize();
+        System.out.println(scenario.getName());
     }
 
+    @AfterStep
+    public void step(Scenario step) {
+        System.out.println("Step is " + step.getStatus());
+
+    }
     @After
     public void tearDown(Scenario scenario){
         if(scenario.isFailed()){
@@ -25,20 +31,11 @@ public class Hooks {
             scenario.attach(screenshot,"image/png","screenshot");
         }
 
+        System.out.println("Scenario is " + scenario.getStatus());
         Driver.closeDriver();
 
     }
 
-    @Before("@db")
-    public void setUpdb(){
-        System.out.println("\tconnecting to database...");
-    }
-
-    @After("@db")
-    public void closeDb(){
-        System.out.println("\tdisconnecting to database...");
-
-    }
 
 
 
